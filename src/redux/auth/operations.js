@@ -30,10 +30,10 @@ export const register = createAsyncThunk(
         } catch (e) {
             if (e.response && e.response.data && e.response.data.errors) {
                 toast.error("Registration error!");
-                return thunkApi.rejectWithValue(e.response.data.errors);
+                return thunkAPI.rejectWithValue(e.response.data.errors);
             }
             toast.error("Server error!");
-            return thunkApi.rejectWithValue({ general: "Server error" });
+            return thunkAPI.rejectWithValue({ general: "Server error" });
         }
     }
 );
@@ -48,20 +48,40 @@ export const login = createAsyncThunk(
             return response.data;
         } catch (e) {
             toast.error("Login error!");
-            return thunkApi.rejectWithValue(e.message);
+            return thunkAPI.rejectWithValue(e.message);
         }
     }
 );
 
 export const logout = createAsyncThunk(
-    "auth/refresh",
+    "auth/logout",
     async (_, thunkAPI) => {
         try {
             prepareAuth(thunkAPI);
-            const response = await axios.get("/users/current");
-            return response.data;
+            await axios.get("/users/logout");
+            clearAuthHeader();
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message);
         }
     }
 );
+
+export const refreshUser = createAsyncThunk(
+    "auth/refreshUser",
+    async (_, thunkAPI) => {
+      try {
+        const state = thunkAPI.getState();
+        const token = state.auth.token;
+  
+        if (!token) {
+          return thunkAPI.rejectWithValue("No token found");
+        }
+  
+        setAuthHeader(token);
+        const response = await axios.get("/users/current");
+        return response.data;
+      } catch (e) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
+    }
+  );
