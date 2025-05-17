@@ -1,0 +1,35 @@
+.userName {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+button {
+    background-color: #1976d2;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1565c0;
+}
+
+@media (width < 475px) {
+    .userName {
+        font-size: 14px;
+    }
+
+    button {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
+@media (width < 385px) {
+    .userName {
+        display: none;
+    }
+}
