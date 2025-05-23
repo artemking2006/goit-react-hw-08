@@ -19,9 +19,14 @@ const App = () => {
     return (
         <>
             <Toaster position="top-center" />
-            {isRefreshing && <Loader />}
-            <Layout />
-            <RoutresSet />
+            {isRefreshing ? (
+                <Loader />
+            ) : (
+                <>
+                    <Layout />
+                    <RoutresSet />
+                </>
+            )}
         </>
     );
 };
